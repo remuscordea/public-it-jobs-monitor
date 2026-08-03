@@ -1,7 +1,19 @@
 import * as cheerio from "cheerio";
+import { fetchPage } from "../fetch-page.js";
 import { announcementId } from "../hash.js";
 import { cleanTitle, normalizeText } from "../text.js";
-import type { Announcement, SourceDefinition } from "../types.js";
+import type { Announcement, JobSource } from "../types.js";
+
+export class PcatSource implements JobSource {
+  readonly id = "pcat-timisoara";
+  readonly name = "PCAT Timisoara";
+  readonly url = "https://pcatimisoara.mpublic.ro/index.php/ro/resurse-umane/posturi-vacante";
+
+  async fetchAnnouncements(): Promise<Announcement[]> {
+    const html = await fetchPage(this.url);
+    return parsePcatAnnouncements(html, this);
+  }
+}
 
 const IGNORED_TEXT = new Set([
   "acasa",
@@ -14,7 +26,10 @@ const IGNORED_TEXT = new Set([
   "read more",
 ]);
 
-export function parsePcatAnnouncements(html: string, source: SourceDefinition): Announcement[] {
+export function parsePcatAnnouncements(
+  html: string,
+  source: Pick<JobSource, "id" | "name" | "url">,
+): Announcement[] {
   const $ = cheerio.load(html);
   const candidates = new Map<string, Announcement>();
 

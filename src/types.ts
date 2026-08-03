@@ -7,13 +7,14 @@ export interface Announcement {
   detectedAt: string;
 }
 
-export interface StoredState {
-  initialized: boolean;
-  announcements: Announcement[];
-}
-
-export interface SourceDefinition {
+export interface JobSource {
   id: string;
   name: string;
   url: string;
+  fetchAnnouncements(): Promise<Announcement[]>;
+}
+
+export interface StoredState {
+  initialized: boolean;
+  announcements: Announcement[];
 }
