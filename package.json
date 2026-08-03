@@ -8,6 +8,7 @@
     "dev": "tsx src/index.ts",
     "check": "tsx src/index.ts --dry-run",
     "diagnose": "tsx src/diagnose.ts",
+    "test:email": "tsx src/test-email.ts",
     "test": "tsx --test src/__tests__/*.test.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"
@@ -16,10 +17,13 @@
     "node": ">=20"
   },
   "dependencies": {
-    "cheerio": "^1.1.2"
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.4.2",
+    "nodemailer": "^9.0.3"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "@types/nodemailer": "^8.0.1",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
   }

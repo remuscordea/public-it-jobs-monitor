@@ -1,12 +1,13 @@
+import "dotenv/config";
 import { SOURCES } from "./config/sources.js";
-import { ConsoleNotifier } from "./notify.js";
+import { ConsoleNotifier, createNotifier } from "./notify.js";
 import { isItRelevant } from "./relevance.js";
 import { loadState, saveState } from "./storage.js";
 import type { Announcement } from "./types.js";
 
 async function main(): Promise<void> {
   const dryRun = process.argv.includes("--dry-run");
-  const notifier = new ConsoleNotifier();
+  const notifier = createNotifier();
   const current: Announcement[] = [];
 
   for (const source of SOURCES) {
@@ -26,11 +27,12 @@ async function main(): Promise<void> {
 
   if (!state.initialized) {
     console.log("Prima rulare: initializez istoricul fara notificari.");
-  } else if (relevant.length > 0) {
+  } else if (relevant.length > 0 && !dryRun) {
     console.log("\n=== ANUNTURI IT NOI ===");
-    for (const item of relevant) {
-      await notifier.notify(item);
-    }
+    await notifier.notify(relevant);
+  } else if (relevant.length > 0) {
+    await new ConsoleNotifier().notify(relevant);
+    console.log("Dry-run: notificarea nu a fost trimisa.");
   } else {
     console.log("Nu exista anunturi IT noi.");
   }
