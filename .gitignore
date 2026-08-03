@@ -5,3 +5,4 @@ data/seen.json
 data/last-page.html
 coverage/
 *.log
+*.patch
