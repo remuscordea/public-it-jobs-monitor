@@ -1,3 +1,6 @@
 @echo off
-cd /d D:\Apps\Projects\public-it-jobs-monitor
-call npm run dev >> data\monitor.log 2>&1
+title Public IT Jobs Monitor
+cd /d "%~dp0"
+call npm run dev
+echo.
+pause

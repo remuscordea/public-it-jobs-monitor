@@ -66,6 +66,10 @@ Prima rulare initializeaza `data/seen.json` cu toate anunturile existente si nu 
 npm run dev
 ```
 
+`npm run dev` foloseste modul manual, cu un rezumat usor de citit si timpul total de executie. Fereastra terminalului este gestionata de scriptul CMD folosit pentru lansarea manuala; aplicatia Node.js nu asteapta input.
+
+Pentru un shortcut pe Desktop, foloseste `run-monitor.cmd`. Scriptul porneste modul manual din propriul director si pastreaza fereastra deschisa cu `pause` dupa terminare. Modul manual foloseste verde numai cand este gasit cel putin un anunt IT nou.
+
 In modul `console`, anunturile IT noi sunt afisate in consola. In modul `email`, toate anunturile IT noi din acea rulare sunt trimise intr-un singur email.
 
 Notificarea este trimisa inainte ca noile anunturi sa fie salvate. Daca SMTP esueaza, istoricul nu este modificat, iar notificarea poate fi reincercata la urmatoarea rulare.
@@ -77,6 +81,22 @@ npm run check
 ```
 
 Dry-run-ul nu trimite email si nu modifica `data/seen.json`; anunturile relevante sunt afisate in consola.
+
+## Rulare programata
+
+```powershell
+npm run scheduled
+```
+
+Modul programat foloseste loguri simple, fara banner, culori sau timp de executie. Poate fi redirectionat intr-un fisier:
+
+```powershell
+npm run scheduled >> data/monitor.log 2>&1
+```
+
+Pentru Windows Task Scheduler, ruleaza `run-monitor-scheduled.cmd`. Scriptul creeaza directorul `data` daca lipseste, adauga output-ul in `data/monitor.log`, nu asteapta input si returneaza codul de iesire npm.
+
+`npm start` foloseste acelasi mod programat ca optiune implicita pentru rularea build-ului de productie.
 
 Pentru a verifica separat configuratia si livrarea Gmail fara a modifica `seen.json`:
 

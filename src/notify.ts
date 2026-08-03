@@ -8,7 +8,7 @@ export interface Notifier {
 export class ConsoleNotifier implements Notifier {
   async notify(announcements: Announcement[]): Promise<void> {
     for (const announcement of announcements) {
-      console.log(`- ${announcement.title}\n  ${announcement.url}`);
+      console.log(`${announcement.sourceName}\n${announcement.title}\n${announcement.url}`);
     }
   }
 }
