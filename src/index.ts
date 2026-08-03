@@ -7,7 +7,7 @@ import type { Announcement } from "./types.js";
 
 async function main(): Promise<void> {
   const dryRun = process.argv.includes("--dry-run");
-  const notifier = createNotifier();
+  const notifier = dryRun ? new ConsoleNotifier() : createNotifier();
   const current: Announcement[] = [];
 
   for (const source of SOURCES) {
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
     console.log("\n=== ANUNTURI IT NOI ===");
     await notifier.notify(relevant);
   } else if (relevant.length > 0) {
-    await new ConsoleNotifier().notify(relevant);
+    await notifier.notify(relevant);
     console.log("Dry-run: notificarea nu a fost trimisa.");
   } else {
     console.log("Nu exista anunturi IT noi.");
